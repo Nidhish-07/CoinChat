@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
+import { ChatContext, ChatProvider } from "../context";
 
 const index = () => {
-  return (
-    <div>index</div>
-  )
-}
+  const title = React.useContext(ChatContext);
+  return <div>{title}</div>;
+};
 
-export default index
+export default index;

@@ -55,6 +55,3 @@ export const connectingToContract = async () => {
   }
 };
 
-export const coverTIme=(time)=>{
-  const newTime=new Date(time.toNumber());
-}

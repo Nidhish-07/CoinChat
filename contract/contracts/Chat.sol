@@ -19,7 +19,7 @@ contract Chat {
         string msg;
     }
 
-    struct AllUsers{
+    struct AllUsers {
         string name;
         address addr;
     }
@@ -30,7 +30,6 @@ contract Chat {
 
     function userExistsCheck(address _userAddr) public view returns (bool) {
         return bytes(usersList[_userAddr].name).length == 0;
-       
     }
 
     function addUser(string memory _name) public {
@@ -38,7 +37,7 @@ contract Chat {
         require(bytes(_name).length > 0, "Need a user name.");
 
         usersList[msg.sender].name = _name;
-        allUsers.push(AllUsers(_name,msg.sender));
+        allUsers.push(AllUsers(_name, msg.sender));
     }
 
     function getUser(address _userAddr) public view returns (string memory) {
@@ -47,7 +46,7 @@ contract Chat {
         return usersList[_userAddr].name;
     }
 
-    function addFriend(address _friendAddr, string memory name) public {
+    function addFriend(string memory name, address _friendAddr) public {
         require(userExistsCheck(msg.sender), "User does not exists!");
         require(userExistsCheck(_friendAddr), "User friend does not exits!");
 
@@ -62,11 +61,10 @@ contract Chat {
         _addFriend(_friendAddr, msg.sender, usersList[msg.sender].name);
     }
 
-    function friendCheck(address _addr1, address _addr2)
-        internal
-        view
-        returns (bool)
-    {
+    function friendCheck(
+        address _addr1,
+        address _addr2
+    ) internal view returns (bool) {
         if (
             usersList[_addr1].friends.length > usersList[_addr2].friends.length
         ) {
@@ -92,35 +90,44 @@ contract Chat {
         usersList[_addr1].friends.push(friend);
     }
 
-    function getFriends(address _userAddr) public view returns(Friend[] memory){
+    function getFriends(
+        address _userAddr
+    ) public view returns (Friend[] memory) {
         return usersList[_userAddr].friends;
     }
 
-    function _getChatCode(address _addr1,address _addr2) internal pure returns(bytes32){
-
-        if(_addr1<_addr2){
-            return keccak256(abi.encodePacked(_addr1,_addr2));
+    function _getChatCode(
+        address _addr1,
+        address _addr2
+    ) internal pure returns (bytes32) {
+        if (_addr1 < _addr2) {
+            return keccak256(abi.encodePacked(_addr1, _addr2));
         }
-        
-            return keccak256(abi.encodePacked(_addr2,_addr1));
+
+        return keccak256(abi.encodePacked(_addr2, _addr1));
     }
 
-    function sendMessage(address _friendAddr,string memory _chat) public {
-        require(userExistsCheck(msg.sender),"Create the account first.");
-        require(userExistsCheck(_friendAddr),"User is not registered.");
-        require(friendCheck(msg.sender,_friendAddr),"You are not friend with the given address user.");
+    function sendMessage(address _friendAddr, string memory _chat) public {
+        require(userExistsCheck(msg.sender), "Create the account first.");
+        require(userExistsCheck(_friendAddr), "User is not registered.");
+        require(
+            friendCheck(msg.sender, _friendAddr),
+            "You are not friend with the given address user."
+        );
 
-        bytes32 chatCode=_getChatCode(msg.sender,_friendAddr);
+        bytes32 chatCode = _getChatCode(msg.sender, _friendAddr);
         // Message memory msg=Message(msg.sender,block.timestamp,_chat);
-        messages[chatCode].push(Message(msg.sender,block.timestamp,_chat));
+        messages[chatCode].push(Message(msg.sender, block.timestamp, _chat));
     }
 
-    function readMessage(address _friendAddr) public view returns(Message[] memory){
-        bytes32 chatCode=_getChatCode(msg.sender,_friendAddr);
+    function readMessage(
+        address _friendAddr
+    ) public view returns (Message[] memory) {
+        bytes32 chatCode = _getChatCode(msg.sender, _friendAddr);
         return messages[chatCode];
     }
 
-    function getAllUsers() public view returns(AllUsers[] memory){
+    function getAllUsers() public view returns (AllUsers[] memory) {
         return allUsers;
     }
 }
