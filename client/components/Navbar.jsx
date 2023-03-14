@@ -1,5 +1,5 @@
 import React from "react";
-import Model from "./Model";
+import Modal from "./Modal";
 import Error from "../UI/Error";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,11 +8,13 @@ import { ChatContext } from "../context";
 import Logo from "../assets/icons/logo.png";
 import User from "../assets/images/user.png";
 import AddUser from "../assets/images/addUser.png";
+import Banner from "../assets/images/banner.jpg";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const Navbar = () => {
-  const { connectWallet, account, username } = React.useContext(ChatContext);
+  const { connectWallet, account, username, createUser, error } =
+    React.useContext(ChatContext);
 
   const [active, setActive] = React.useState(1);
   const [open, setOpen] = React.useState(false);
@@ -142,6 +144,20 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
+      {openModal && (
+        <div className="fixed inset-0 bg-[#292f3f] z-50 sm:absolute sm:top-0 sm:right-0 sm:bottom-3/4 sm:left-0 sm:bg-[#292f3f]">
+          <Modal
+            openModal={setOpenModal}
+            backgroundImage={Banner}
+            data="CoinChat"
+            info="Select your name"
+            propsFunction={createUser}
+            address={account}
+          ></Modal>
+        </div>
+      )}
+      {error && <Error error={error} />}
     </div>
   );
 };

@@ -13,6 +13,7 @@ module.exports = {
       gridTemplateColumns: {
         navBar: "1fr 1.75fr",
         smNavBar: ".5fr 2fr",
+        modalGrid: "1.5fr 1fr",
       },
     },
     screens: {
