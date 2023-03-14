@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div>
+    <div className="bg-[#050505]">
       <ChatProvider>
         <Navbar />
         <Component {...pageProps} />

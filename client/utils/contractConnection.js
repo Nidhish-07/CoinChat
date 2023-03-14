@@ -15,6 +15,7 @@ export const ifWalletIsConnected = async () => {
 
     const firstAccount = accounts[0];
     console.log(firstAccount);
+    return firstAccount;
   } catch (error) {
     console.log("Metamask not installed " + error);
   }
@@ -32,13 +33,14 @@ export const connectWallet = async () => {
 
     const firstAccount = accounts[0];
     console.log(firstAccount);
+    return firstAccount;
   } catch (error) {
     console.log("Metamask not installed " + error);
   }
 };
 
 export const fetchContract = async (signer) => {
-  new ethers.Contract(ChatABI, ChatAddress, signer);
+  return new ethers.Contract(ChatAddress, ChatABI, signer);
 };
 
 export const connectingToContract = async () => {
@@ -54,4 +56,3 @@ export const connectingToContract = async () => {
     console.log(error);
   }
 };
-

@@ -154,6 +154,8 @@ export const ChatProvider = (props) => {
         addFriends,
         sendMessage,
         getUserInfo,
+        ifWalletIsConnected,
+        connectWallet
       }}
     >
       {props.children}
